@@ -8,12 +8,24 @@ class Article(metaclass=ABCMeta):
         if not isinstance(author, Author):
             raise Exception("Can't assign non-author object to article's author field")
         else:
-            self.title = title
-            self.author = author
-            self.description = description
+            self.__title = title
+            self.__author = author
+            self.__description = description
+
+    @property
+    def title(self) -> str:
+        return self.__title
+
+    @property
+    def author(self) -> Author:
+        return self.__author
+
+    @property
+    def description(self) -> str:
+        return self.__description
 
     def __str__(self):
-        result_string = f"[{self.title}, {self.author}, {self.description}]"
+        result_string = f"[{self.__title}, {self.__author}, {self.__description}]"
 
         return result_string
 
@@ -23,5 +35,5 @@ class Article(metaclass=ABCMeta):
         else:
             return False
 
-    def base_method(self, author: Author = None):
+    def show_additional_info(self, author: Author = None):
         print("This is a parent method")

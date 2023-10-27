@@ -11,10 +11,22 @@ class Journal:
         elif not all(isinstance(element, Commentary) for element in commentary_list):
             raise Exception("Can't assign non-commentary list to journal's commentary list field")
         else:
-            self.title = title
-            self.article_list = article_list
-            self.commentary_list = commentary_list
+            self.__title = title
+            self.__article_list = article_list
+            self.__commentary_list = commentary_list
             self.__generated_commentaries = []
+
+    @property
+    def title(self) -> str:
+        return self.__title
+
+    @property
+    def article_list(self) -> list[Article]:
+        return self.__article_list
+
+    @property
+    def commentary_list(self) -> list[Commentary]:
+        return self.__commentary_list
 
     @property
     def generated_commentaries(self) -> list[Commentary]:
@@ -24,20 +36,20 @@ class Journal:
         if not isinstance(article, Article):
             print("Can't append non-article object into article list")
         else:
-            self.article_list.append(article)
+            self.__article_list.append(article)
 
     def add_commentary(self, commentary: Commentary):
         if not isinstance(commentary, Commentary):
             print("Can't append non-commentary object into commentary list")
         else:
-            for i in self.article_list:
+            for i in self.__article_list:
                 if i == commentary.article:
-                    self.commentary_list.append(commentary)
+                    self.__commentary_list.append(commentary)
 
     def __str__(self):
-        result_string = (f"[{self.title}\n"
-                         f"Articles: {[str(i) for i in self.article_list]}\n"
-                         f"Commentaries: {[str(i) for i in self.commentary_list]}]")
+        result_string = (f"[Journal title: {self.__title}\n"
+                         f"Articles: {[str(i) for i in self.__article_list]}\n"
+                         f"Commentaries: {[str(i) for i in self.__commentary_list]}]")
 
         return result_string
 

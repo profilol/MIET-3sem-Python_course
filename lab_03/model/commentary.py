@@ -9,11 +9,23 @@ class Commentary:
         elif not isinstance(article, Article):
             raise Exception("Can't assign non-article object to commentary's article field")
         else:
-            self.author = author
-            self.article = article
-            self.description = description
+            self.__author = author
+            self.__article = article
+            self.__description = description
+
+    @property
+    def author(self):
+        return self.__author
+
+    @property
+    def article(self):
+        return self.__article
+
+    @property
+    def description(self):
+        return self.__description
 
     def __str__(self):
-        result_string = f"{self.author}, {self.article}, {self.description}"
+        result_string = f"{self.__author}, {self.__article}, {self.__description}"
 
         return result_string
