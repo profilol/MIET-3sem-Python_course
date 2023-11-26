@@ -114,9 +114,22 @@ def try_to_calculate_probability(passengers: pd.DataFrame, stats: pd.DataFrame):
 
 def graph_for_age_survival(passengers: pd.DataFrame):
     passengers_data = passengers.copy()
+    passengers_count = passengers.count().iloc[0]
     result_data = passengers_data[["Age", "Survived"]].value_counts().to_frame("CountOfSurvival").reset_index()
-    print(result_data)
-    plt.bar(result_data['Age'], result_data['CountOfSurvival'], align='center')
+    new_result = result_data[result_data["Survived"] == 1][["Age", "CountOfSurvival"]]
+    another_result = passengers_data["Age"].value_counts().to_frame("Count").reset_index()
+    print(another_result)
+    #new_result["PercentOfSurvival"] = (new_result["CountOfSurvival"] / passengers_count) * 100
+
+    print(new_result)
+    new_result = new_result.merge(another_result, on="Age")
+    #new_result["PercentOfSurvival"] = (new_result["CountOfSurvival"] / passengers_count) * 100
+    #new_result["PercentOfSurvival"] = (new_result["CountOfSurvival"] / result_data["CountOfSurvival"]) * 100
+    new_result["PercentOfSurvival"] = new_result["CountOfSurvival"] / new_result["Count"]
+
+    plt.bar(new_result['Age'], new_result['PercentOfSurvival'], align='center')
+    plt.xlabel("Age")
+    plt.ylabel("Count of alive")
     plt.show()
 
 
@@ -144,7 +157,7 @@ print(task_4_surnames_data)
 print(task_4_names_data)
 
 print("Task 5:")
-print(task_5_data.iloc[32])
+print(task_5_data)
 
 print("Task 6:")
 stats_data_sorted = pclass_and_sex_influence_for_alive(data)
